@@ -169,8 +169,17 @@ const createRouter = () => new Router({
   scrollBehavior: () => ({ y: 0 }),
   routes: constantRoutes
 })
-
+//vueRouter实例
 const router = createRouter()
+
+router.beforeEach((to, from, next) => {
+  console.log(to)
+  if (to.path === '/login'){
+    next()
+  } else {
+    next('/login')
+  }
+})
 
 // Detail see: https://github.com/vuejs/vue-router/issues/1234#issuecomment-357941465
 export function resetRouter() {
