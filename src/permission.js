@@ -1,5 +1,36 @@
 import router from '@/router'
+import store from '@/store'
 // to: 去哪里的路由信息
 //from: 来自于哪个路由的信息
 //next: 是否进入
-router.beforeEach((to, from, next) => {})
+const whiteList = ['/login', '/404'] //白名单
+router.beforeEach((to, from, next) => {
+    const token = store.state.user.token
+    if (token) {
+        //获取用户信息
+        if (!store.state.user.getUserInfo.userId){
+            store.dispatch('user/getUserInfo')
+        }
+        // 登录
+        if (to.path === '/login') return next('/')
+        next()
+        // if (to.path === '/login') {
+        //     // 是 跳到首页
+        //     next('/')
+        // }else {
+        //     // 不是 直接进入
+        //     next()
+        // }
+    }else {
+        // 未登录
+        // 访问是否在白名单
+        const isCludes = whiteList.includes(to.path)
+        if (isCludes) {
+            // 在白名单 放行
+            next()
+        }else {
+            // 不在 跳到登录页面
+            next('/login')
+        }
+    }
+})

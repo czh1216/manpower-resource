@@ -15,6 +15,9 @@ import router from './router'
 import '@/icons' // icon
 import '@/permission' // permission control
 
+import * as directives from '@/directives'
+// console.log(directives)
+
 // mock假数据
 if (process.env.NODE_ENV === 'production') {
   const { mockXHR } = require('../mock')
@@ -27,6 +30,18 @@ Vue.use(ElementUI, { locale })
 // Vue.use(ElementUI)
 
 Vue.config.productionTip = false
+
+// Vue.directive('imgError', {
+//   inserted: function (el, {value}) {
+//     el.onerror = function () {
+//       el.src = value
+//     }
+//   }
+// })
+
+for (let key in directives) {
+  Vue.directive(key, directives[key])
+}
 
 new Vue({
   el: '#app',

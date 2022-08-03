@@ -43,7 +43,7 @@
 
       <!-- 底部信息 -->
       <div class="tips">
-        <span style="margin-right: 20px">账号: 13800000002</span>
+        <span style="margin-right: 20px">账号: 13800000004</span>
         <span> 密码: 123456</span>
       </div>
     </el-form>
@@ -51,12 +51,13 @@
 </template>
 
 <script>
+// npm run dev
 export default {
   name: 'Login',
   data() {
     return {
       loginForm: {
-        mobile: '13800000002', //手机号
+        mobile: '13800000004', //手机号
         password: '123456', // 密码
       },
       loginFormRules: {
