@@ -1,20 +1,30 @@
 <template>
   <div class="dashboard-container">
     <div class="app-container">
-      <el-card class="box-card">
+      <el-card class="box-card" v-loading="loading">
         <!-- 头部-->
-        <TewwTools :treeNode="company" :isRoot="true" @add="dialogVisible= true" />
+        <TewwTools :treeNode="company" :isRoot="true" @add="showAddDept" />
 
         <!-- 树形 -->
         <el-tree :data="treeData" :props="defaultProps" default-expand-all>
           <template v-slot="{ data }">
-            <TewwTools :treeNode="data" @remove="getDepartment" @add="dialogVisible= true" />
+            <TewwTools
+              :treeNode="data"
+              @remove="getDepartment"
+              @add="showAddDept"
+              @edit="showEdit"
+            />
           </template>
         </el-tree>
       </el-card>
     </div>
 
-    <AddDept :visible="dialogVisible"></AddDept>
+    <AddDept
+    ref="addDept"
+      @add-success="getDepartment"
+      :visible.sync="dialogVisible"
+      :currentNode="currentNode"
+    ></AddDept>
   </div>
 </template>
 
@@ -37,6 +47,8 @@ export default {
       company: { name: '总裁办', manager: '曹操' },
 
       dialogVisible: false,
+      currentNode: {},
+      loading: false
     }
   },
 
@@ -51,14 +63,21 @@ export default {
 
   methods: {
     async getDepartment() {
+      this.loading = true;
       const res = await getDepartmentApi()
       // console.log(res);
       this.treeData = transListToTree(res.depts, '')
+      this.loading = false
     },
-
-    onAdd() {
-      console.log(123)
+    showAddDept(val) {
+      this.dialogVisible = true
+      this.currentNode = val
     },
+    showEdit(val) {
+      this.dialogVisible = true
+      this.$refs.addDept.getDeptById(val.id)
+      // this.currentNode = val
+    }
   },
 }
 </script>

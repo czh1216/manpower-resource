@@ -17,3 +17,19 @@ export const delDepartmentApi = (id) => {
         method: 'DELETE'
     })
 }
+
+// 根据ID查询部门详情
+// /company/department/{id}
+export const getBepartmentApi = (id) => {
+    return request({
+        url: `/company/department/${id}`
+    })
+}
+// 根据ID修改部门详情
+export const ediBepartmentApi = (data) => {
+    return request({
+        url: `/company/department/${data.id}`,
+        method: 'PUT',
+        data
+    })
+}

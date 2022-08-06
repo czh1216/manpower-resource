@@ -12,11 +12,11 @@
             </span>
             <!-- 下拉菜单 -->
             <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item @click.native="add"
+              <el-dropdown-item @click.native="$emit('add', treeNode)"
                 >添加子部门</el-dropdown-item
               >
               <template v-if="!isRoot">
-                <el-dropdown-item>编辑子部门</el-dropdown-item>
+                <el-dropdown-item @click.native="$emit('edit', treeNode)">编辑子部门</el-dropdown-item>
                 <el-dropdown-item @click.native="onRemove"
                   >删除子部门</el-dropdown-item
                 >
