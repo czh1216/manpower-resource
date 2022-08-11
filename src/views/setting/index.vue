@@ -5,19 +5,26 @@
         <!-- 角色管理 -->
         <el-tab-pane label="角色管理" name="first">
           <el-button type="primary">新增角色</el-button>
+<!-- 表格 -->
+          <el-table :data="tableData" style="width: 100%">
+            <el-table-column type="index" label="序号">
+            </el-table-column>
+            <el-table-column prop="name" label="角色">
+            </el-table-column>
+            <el-table-column prop="address" label="描述"> </el-table-column>
+            <el-table-column prop="name" label="操作">
+              <template>
+                <el-button size="small" type="success">分配权限</el-button>
+                <el-button size="small" type="primary">编辑</el-button>
+                <el-button size="small" type="danger">删除</el-button>
+              </template>
+            </el-table-column>
+          </el-table>
         </el-tab-pane>
 
         <!-- 公司信息 -->
         <el-tab-pane label="公司信息" name="second">
-          <el-table :data="tableData" style="width: 100%">
-            <el-table-column prop="date" label="序号" width="180">
-            </el-table-column>
-            <el-table-column prop="name" label="角色" width="180">
-            </el-table-column>
-            <el-table-column prop="address" label="描述" width="180"> </el-table-column>
-            <el-table-column prop="name" label="操作" width="180">
-            </el-table-column>
-          </el-table>
+          
         </el-tab-pane>
       </el-tabs>
     </div>
@@ -25,6 +32,7 @@
 </template>
 
 <script>
+import { getRole } from '@/api/setting'
 export default {
   data() {
     return {
@@ -54,9 +62,16 @@ export default {
     }
   },
 
-  created() {},
+  created() {
+    this.getRole()
+  },
 
-  methods: {},
+  methods: {
+    async getRole() {
+      const res = await getRole()
+      console.log(res);
+    }
+  },
 }
 </script>
 
