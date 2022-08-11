@@ -79,7 +79,7 @@ export default {
       // this.currentNode = val
     }
   },
-}
+ }
 </script>
 
 <style scoped lang="less"></style>
