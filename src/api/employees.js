@@ -15,3 +15,44 @@ export function addDepartmentApi(data) {
       data
     })
   }
+
+
+  // 获取员工列表
+  // /sys/user
+  export function getUserApi (params) {
+    return request({
+      url: '/sys/user',
+      params
+    })
+  }
+
+  /**
+ * 删除员工接口
+ * ****/
+
+export function delEmployee(id) {
+  return request({
+    url: `/sys/user/${id}`,
+    method: 'delete'
+  })
+}
+
+/** **
+ *  新增员工的接口
+ * **/
+ export function addEmployee(data) {
+  return request({
+    method: 'post',
+    url: '/sys/user',
+    data
+  })
+}
+
+// 导入员工
+export function importEmployee(data) {
+  return request({
+    url: '/sys/user/batch',
+    method: 'post',
+    data
+  })
+}

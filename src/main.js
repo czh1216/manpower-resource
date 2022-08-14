@@ -14,9 +14,17 @@ import router from './router'
 
 import '@/icons' // icon
 import '@/permission' // permission control
+import * as filters from '@/filters'
 
 import * as directives from '@/directives'
 // console.log(directives)
+
+import components from '@/components'
+Vue.use(components)
+
+for (let key in filters) {
+  Vue.filter(key, filters[key])
+}
 
 // mock假数据
 if (process.env.NODE_ENV === 'production') {
@@ -42,6 +50,8 @@ Vue.config.productionTip = false
 for (let key in directives) {
   Vue.directive(key, directives[key])
 }
+
+
 
 new Vue({
   el: '#app',
