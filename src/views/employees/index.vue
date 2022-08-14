@@ -4,9 +4,18 @@
       <PageTools>
         <span slot="left">共166条记录</span>
         <template slot="right">
-          <el-button size="small" type="warning" @click="$router.push('/imgiong')">导入</el-button>
-          <el-button size="small" type="danger">导出</el-button>
-          <el-button size="small" type="primary" @click="newly">新增员工</el-button>
+          <el-button
+            size="small"
+            type="warning"
+            @click="$router.push('/imgiong')"
+            >导入</el-button
+          >
+          <el-button size="small" type="danger" @click="exportExcel"
+            >导出</el-button
+          >
+          <el-button size="small" type="primary" @click="newly"
+            >新增员工</el-button
+          >
         </template>
       </PageTools>
       <!-- 放置表格和分页 -->
@@ -90,6 +99,7 @@
 import { getUserApi, delEmployee } from '@/api/employees'
 import AddEmployee from './components/add-employees.vue'
 import employees from '@/constant/employees'
+const { exportExcelMapPath, hireType } = employees
 export default {
   data() {
     return {
@@ -107,7 +117,7 @@ export default {
     this.getUserApi()
   },
   components: {
-    AddEmployee
+    AddEmployee,
   },
 
   methods: {
@@ -141,10 +151,44 @@ export default {
       }
     },
 
+    // 新增员工
     newly() {
-      console.log(222);
+      console.log(222)
       this.dialogVisible = true
-    }
+    },
+
+    // 导出
+    async exportExcel() {
+      const { export_json_to_excel } = await import('@/vendor/Export2Excel')
+      const { rows } = await getUserApi({
+        page: 1,
+        size: this.total,
+      })
+      // console.log(rows)
+      const header = Object.keys(exportExcelMapPath)
+      // console.log(header)
+      const data = rows.map((item) => {
+        return header.map((h) => {
+          if (h === '聘用形式') {
+            const findItem = hireType.find((hire) => {
+              return hire.id === item[exportExcelMapPath[h]]
+            })
+            return findItem ? findItem.value : '未知'
+          } else {
+            return item[exportExcelMapPath[h]]
+          }
+        })
+      })
+      console.log(data)
+
+      export_json_to_excel({
+        header,
+        data,
+        filename: '员工列表',
+        autoWidth: true,
+        bookType: 'xlsx',
+      })
+    },
   },
 }
 </script>
