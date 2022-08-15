@@ -23,3 +23,11 @@ export function getUserDetail(id) {
     url: '/sys/user/' + id
   })
 }
+
+export function saveUserDetailById(data) {
+  return request({
+    url: `/sys/user/${data.id}`,
+    method: 'put',
+    data
+  })
+}
