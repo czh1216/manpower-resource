@@ -28,7 +28,7 @@
               <UserInfo></UserInfo>
           </el-tab-pane>
           <el-tab-pane name="zxcv" label="岗位信息">
-
+            <jobInfo></jobInfo>
           </el-tab-pane>
         </el-tabs>
       </el-card>
@@ -40,6 +40,7 @@
 import { getUserDetail, saveUserDetailById } from '@/api/user'
 import UserInfo from './components/user-info.vue'
 import Cookies from 'js-cookie'
+import jobInfo from './components/job-info.vue'
 export default {
   data() {
     return {
@@ -53,7 +54,8 @@ export default {
     this.getUserDetail()
   },
   components: {
-      UserInfo
+      UserInfo,
+      jobInfo
   },
 
   methods: {

@@ -22,6 +22,9 @@ import * as directives from '@/directives'
 import components from '@/components'
 Vue.use(components)
 
+import Print from 'vue-print-nb'
+Vue.use(Print);
+
 for (let key in filters) {
   Vue.filter(key, filters[key])
 }
