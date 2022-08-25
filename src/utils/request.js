@@ -14,43 +14,47 @@ function isTimeOut() {
 
 const service = axios.create({
   baseURL: process.env.VUE_APP_BASE_API,
+  // 3套
+  // 开发期间
+  // 测试的
+  // 线上的
   timeout: 5000,
 }) // 创建一个axios的实例
-
 service.interceptors.request.use(async (config) => {
+  // 当前请求的配置
   if (store.state.user.token) {
     if (isTimeOut()) {
-      // console.log('跳转登录页面');
       await store.dispatch('user/logout')
       router.push('/login')
       return Promise.reject(new Error('登录过期'))
     } else {
-      config.headers.Authorization = `Bearer ${store.state.user.token}`
+      config.headers.Authorization = 'Bearer ' + store.state.user.token
     }
   }
   return config
 }) // 请求拦截器
-
 service.interceptors.response.use(
   (res) => {
-    // console.log(res);
+    // 请求成功的函数
     const { success, data, message } = res.data
     if (success) {
       return data
-    } else {
-      Message.error(message)
-      return Promise.reject(new Error(message))
     }
+    Message.error(message)
+    return Promise.reject(new Error(message))
   },
   async function (error) {
+    // 对响应错误做点什么
+    // es11
     if (error?.response?.status === 401) {
-        Message.error('登录过期')
-        await store.dispatch('user/logout')
-        router.push('/login')
+      Message.error('登录过期')
+      await store.dispatch('user/logout')
+      router.push('/login')
     } else {
-        Message.error(error.message)
+      Message.error(error.message)
     }
+
     return Promise.reject(error)
-  },
+  }
 ) // 响应拦截器
 export default service // 导出axios实例

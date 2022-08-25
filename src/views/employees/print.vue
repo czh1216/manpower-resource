@@ -1,9 +1,8 @@
 <template>
   <div class="dashboard-container" id="myPrint">
+    <!-- v-print的值应该是一个字符串(选择器), 对应的就会将该选择器中的内容进行打印 -->
+    <el-button v-print="'#myPrint'">打印</el-button>
     <div class="app-container">
-      <el-button v-print="'myPrint'" size="small" type="primary">
-  打印
-</el-button>
       <el-card>
         <el-breadcrumb separator="/" class="titInfo">
           <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
@@ -39,7 +38,7 @@
             </tr>
             <tr>
               <th>出生日期</th>
-              <td colspan="6">{{ formData.dateOfBirth }}</td>
+              <td colspan="6">{{ formData.dateOfBirth | formatTime }}</td>
             </tr>
             <tr>
               <th>最高学历</th>
@@ -341,7 +340,6 @@
         </div>
       </el-card>
     </div>
-    
   </div>
 </template>
 
@@ -352,7 +350,6 @@ export default {
   data() {
     return {
       formData: {},
-      formatDate: {},
       userId: this.$route.params.id,
       type: this.$route.query.type, // 打印类型
     }
